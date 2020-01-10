@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19A582a" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AList" representedClassName=".AList" syncable="YES">
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ListItem" inverseName="list" inverseEntity="ListItem"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="title"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="ListItem" representedClassName=".ListItem" syncable="YES">
+        <attribute name="imgData" optional="YES" attributeType="Binary"/>
+        <attribute name="info" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AList" inverseName="items" inverseEntity="AList"/>
+    </entity>
+    <elements>
+        <element name="AList" positionX="-101.1953125" positionY="-291.43359375" width="128" height="73"/>
+        <element name="ListItem" positionX="304.546875" positionY="-362.12109375" width="128" height="103"/>
+    </elements>
+</model>
