@@ -14,7 +14,9 @@ class ExistingListsViewModel: ObservableObject {
     @Published var lists: [AList] = []
     
     init() {
-        retrieveLists()
+        DispatchQueue.main.async {
+            self.retrieveLists()
+        }
     }
     
     func retrieveLists() {
@@ -28,6 +30,7 @@ class ExistingListsViewModel: ObservableObject {
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "AList")
         do {
+            print("Fecthing....")
             lists = try managedContext.fetch(fetchRequest) as! [AList]
             
             

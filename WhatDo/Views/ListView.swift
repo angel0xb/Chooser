@@ -13,11 +13,16 @@ struct ListView: View {
     @State var showRandomItem: Bool = false
     @State var item: ListItem = ListItem()
     @Binding var isActive: Bool
+    
     var body: some View {
 
         VStack {
             NavigationLink(destination: NewListView(viewModel: NewListViewModel(list: list, isEditing: true), listTitle: list.title, shouldPopToRootView: $isActive)) {
-                Text("Edit")
+                HStack {
+                    Spacer()
+                    Text("Edit")
+                        .padding(.trailing)
+                }
             }.isDetailLink(false)
             List {
                 ForEach(Array(list.items), id: \.title) { item in

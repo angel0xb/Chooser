@@ -15,6 +15,19 @@ struct NewListView: View {
     @State var showTitleAlert: Bool = false
     @Binding var shouldPopToRootView: Bool 
     
+    var animation: Animation {
+          Animation.spring(dampingFraction: 0.5)
+              .speed(2)
+      }
+    
+    var moveAndFade: AnyTransition {
+        let insertion = AnyTransition.move(edge: .trailing)
+            .combined(with: .opacity)
+        let removal = AnyTransition.scale
+            .combined(with: .opacity)
+        return .asymmetric(insertion: insertion, removal: removal)
+    }
+    
     var body: some View {
         
         return VStack {
@@ -24,10 +37,13 @@ struct NewListView: View {
                     .padding()
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .multilineTextAlignment(.center)
+                    .transition(self.moveAndFade)
             }
             
             Button(action: {
-                self.showAddNewItemView.toggle()
+                withAnimation {
+                    self.showAddNewItemView.toggle()
+                }
             }) {
                 
                 if showAddNewItemView {
@@ -52,16 +68,14 @@ struct NewListView: View {
             }
             
             if showAddNewItemView {
-                NewItemView(viewModel: viewModel)
+                NewItemView(viewModel: viewModel, isShown: $showAddNewItemView)
+                    .transition(.slide)
                     .background(Color.pink)
-                //                        .frame(minWidth: 0, maxWidth: 300, minHeight: 0, maxHeight: 150)
-                //                        .padding([.horizontal])
-                //                        .cornerRadius(40)
+                Text("Current List Items")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .transition(.opacity)
             }
-            
-            Text("Current List Items")
-                .font(.title)
-                .fontWeight(.bold)
             
             List {
                 ForEach(Array(self.viewModel.items), id: \.title) { item in
@@ -102,6 +116,7 @@ struct NewItemView: View {
     @State var title: String = ""
     @State var info: String = ""
     @State var showAlert: Bool = false
+    @Binding var isShown: Bool
     
     var body: some View {
         let titleBinding = Binding<String>(get: {
@@ -146,18 +161,21 @@ struct NewItemView: View {
                 .padding(.horizontal)
             
             Button(action: {
-                if self.title.isEmpty {
-                    self.showAlert = true
-                } else {
-                    self.viewModel.addItem(title: self.title, info: self.info)
-                    self.title = ""
-                    self.info = ""
+                withAnimation(Animation.easeInOut) {
+                    if self.title.isEmpty {
+                          self.showAlert = true
+                      } else {
+                          self.viewModel.addItem(title: self.title, info: self.info)
+                          self.title = ""
+                          self.info = ""
+                          self.isShown.toggle()
+                      }
                 }
             }){
                 Text("Add Item")
             }
             .padding()
-        }
+        }.transition(.slide)
     }
 }
 

@@ -37,8 +37,10 @@ struct HomeView: View {
                         .padding(10)
                 }
             }
-            .onDisappear {
+            .onAppear{
                 self.viewModel.resetExisingListView(isActive: self.$isExistingActive)
+            }
+            .onDisappear {
                 self.viewModel.resetNewListView(isActive: self.$isActive)
             }
         }
