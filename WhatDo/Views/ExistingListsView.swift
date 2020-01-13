@@ -12,27 +12,14 @@ struct ExistingListsView: View {
     @ObservedObject var viewModel: ExistingListsViewModel = ExistingListsViewModel()
     @Binding var isActive: Bool
     var body: some View {
-        
         List {
-            
             ForEach(viewModel.lists, id: \.self) { list in
                 NavigationLink(destination: ListView(list: list, isActive: self.$isActive)) {
                     ListTitleView(list: list)
                 }.isDetailLink(false)
-            }.onDelete(perform: delete)
-
+            }.onDelete(perform: viewModel.deleteList)
         }
-//        .onAppear {
-//            self.viewModel.retrieveLists()
-//        }
         .navigationBarTitle(Text("My Lists"))
-    }
-    
-    
-    func delete(at offsets: IndexSet) {
-        var array = Array(viewModel.lists)
-        array.remove(atOffsets: offsets)
-        print(viewModel.lists)
     }
 }
 

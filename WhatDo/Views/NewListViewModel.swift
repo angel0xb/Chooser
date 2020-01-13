@@ -14,7 +14,7 @@ class NewListViewModel: ObservableObject {
     @Published var listTitle: String = ""
     @Published var items: Set<ListItem> = []
     @Published private(set) var itemImages = [ListItem:UIImage]()
-    @State var isEditing: Bool = false
+    @Published var isEditing: Bool = false
     private var editList: AList?//used for editiing a list
 
     init() {
@@ -25,10 +25,10 @@ class NewListViewModel: ObservableObject {
     }
     
     init(list: AList, isEditing: Bool) {
+        self.isEditing = isEditing
         self.editList = list
         self.listTitle = list.title
         self.items = list.items
-        self.isEditing = isEditing
     }
     
     func addItem(title: String, info: String, img: UIImage = UIImage()) {
@@ -84,12 +84,15 @@ class NewListViewModel: ObservableObject {
         list.setValue(listTitle, forKeyPath: "title")
         list.setValue(items, forKey: "items")
         
-        
         do {
           try managedContext.save()
         } catch let error as NSError {
           print("Could not save. \(error), \(error.userInfo)")
         }
+    }
+    
+    func getNavBarTitle() -> String {
+        return isEditing ? "Editing List:" : "New List:"
     }
     
     func fetchImage(for item: ListItem) {

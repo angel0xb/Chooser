@@ -30,7 +30,6 @@ struct ListView: View {
                 }
             }
             
-            
             Button(action: {
                 self.item = self.list.items.randomElement() ?? ListItem()
                 self.showRandomItem.toggle()
@@ -50,9 +49,7 @@ struct ListView: View {
         }
         .navigationBarTitle(list.title)
     }
-    
 }
-
 
 struct ExistingItemView: View {
     @State var item: ListItem

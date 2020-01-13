@@ -19,8 +19,6 @@ class HomeViewModel: ObservableObject {
 //        deleteAllData()
     }
     func deleteAllData(){
-
-
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.persistentContainer.viewContext
         let DelAllReqVar = NSBatchDeleteRequest(fetchRequest: NSFetchRequest<NSFetchRequestResult>(entityName: "AList"))
@@ -33,24 +31,11 @@ class HomeViewModel: ObservableObject {
     }
     
     func resetExisingListView(isActive: Binding<Bool>) {
-        
         existingListView = ExistingListsView(isActive: isActive)
     }
     
     func resetNewListView(isActive: Binding<Bool>)  {
         newListView = NewListView(viewModel: NewListViewModel(isEditing: false), shouldPopToRootView: isActive)
     }
-//    func fetchLists() {
-//        let request = NSFetchRequest<AList>(entityName: "AList")
-//        do {
-//            let fetchedResults = try managedObjectContext!.fetch(fetchRequest)
-//            for item in fetchedResults {
-//                print(item.value(forKey: "name")!)
-//            }
-//        } catch let error as NSError {
-//            // something went wrong, print the error.
-//            print(error.description)
-//        }
-//    }
     
 }

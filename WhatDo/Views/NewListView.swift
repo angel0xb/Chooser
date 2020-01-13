@@ -85,7 +85,7 @@ struct NewListView: View {
             
             Button(action: {
                 self.showAddNewItemView = false
-                if !self.listTitle.isEmpty {
+                if !self.listTitle.isEmpty && !self.$viewModel.items.wrappedValue.isEmpty {
                     self.viewModel.listTitle = self.listTitle
                     self.viewModel.saveList()
                     self.shouldPopToRootView = false
@@ -105,9 +105,9 @@ struct NewListView: View {
             }
         }
         .alert(isPresented: $showTitleAlert) {
-            return Alert(title: Text("List title cannot be empty."), message: Text("Please add title."), dismissButton: .default(Text("Ok")))
+            return listTitle.isEmpty ? Alert(title: Text("List title cannot be empty."), message: Text("Please add title."), dismissButton: .default(Text("Ok"))) : Alert(title: Text("List must contain an item."), message: Text("Please add item(s)."), dismissButton: .default(Text("Ok")))
         }
-        .navigationBarTitle(Text(!viewModel.isEditing ? "New List: \(listTitle)" : "Editing List: \(listTitle)"), displayMode: .inline)
+        .navigationBarTitle(Text("\(viewModel.getNavBarTitle()) \(listTitle)"), displayMode: .inline)
     }
 }
 
