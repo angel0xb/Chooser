@@ -16,9 +16,9 @@ struct NewListView: View {
     @Binding var shouldPopToRootView: Bool 
     
     var animation: Animation {
-          Animation.spring(dampingFraction: 0.5)
-              .speed(2)
-      }
+        Animation.spring(dampingFraction: 0.5)
+            .speed(2)
+    }
     
     var moveAndFade: AnyTransition {
         let insertion = AnyTransition.move(edge: .trailing)
@@ -38,6 +38,7 @@ struct NewListView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .multilineTextAlignment(.center)
                     .transition(self.moveAndFade)
+                    .animation(animation)
             }
             
             Button(action: {
@@ -49,11 +50,16 @@ struct NewListView: View {
                 if showAddNewItemView {
                     HStack {
                         Spacer()
-                        Image(systemName: "xmark.circle.fill")
-                            .padding(.top)
-                            .padding(.trailing)
+                        Image(systemName: "xmark.circle")
+                            .padding(7)
+                            .foregroundColor(Color.gray)
                     }
-                    
+                    .overlay(
+                        Capsule(style: .continuous)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                        .padding(.horizontal, 30)
+                        .padding(.top, 10)
                 } else {
                     HStack {
                         Spacer()
@@ -70,11 +76,15 @@ struct NewListView: View {
             if showAddNewItemView {
                 NewItemView(viewModel: viewModel, isShown: $showAddNewItemView)
                     .transition(.slide)
-                    .background(Color.pink)
+                    .background(Color.gray.cornerRadius(10))
+                    .padding(.horizontal, 30)
+                    .padding(.top, -10)
+                
                 Text("Current List Items")
                     .font(.title)
                     .fontWeight(.bold)
                     .transition(.opacity)
+                    .padding(.top)
             }
             
             List {
@@ -101,7 +111,6 @@ struct NewListView: View {
                     .cornerRadius(40)
                     .foregroundColor(.white)
                     .padding(.bottom, 5)
-                
             }
         }
         .alert(isPresented: $showTitleAlert) {
@@ -116,6 +125,8 @@ struct NewItemView: View {
     @State var title: String = ""
     @State var info: String = ""
     @State var showAlert: Bool = false
+    @State var image: Image? = nil
+    @State var showImageCaptureView: Bool = false
     @Binding var isShown: Bool
     
     var body: some View {
@@ -135,53 +146,88 @@ struct NewItemView: View {
             Text("New Item")
                 .font(.title)
                 .fontWeight(.bold)
+            //                .padding(.top)
             HStack {
                 Text("Title")
+                    .fontWeight(.semibold)
                     .font(.subheadline)
+                    .padding(.leading)
                 Spacer() 
             }
             
             TextField("Title", text: titleBinding)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal)
-                
+                .padding(.horizontal, 30)
                 .alert(isPresented: $showAlert) {
                     Alert(title: Text("Item title cannot be empty."), message: Text("Please add title."), dismissButton: .default(Text("Ok")))
             }
-            //            Image(uiImage: UIImage(data: item.imgData) ?? UIImage())
             
             HStack {
                 Text("Description")
+                    .fontWeight(.semibold)
                     .font(.subheadline)
+                    .padding(.leading)
                 Spacer()
             }
             
             TextField("Description", text: infoBinding)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal)
+                .padding(.horizontal, 30)
+            
+            Button(action: {
+                print("add image")
+                self.showImageCaptureView.toggle()
+            }){
+                
+                Image(systemName: "photo")
+                    .resizable()
+                    .frame(width: 150, height: 150)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                
+            }.sheet(isPresented: self.$showImageCaptureView) {
+                CaptureImageView(isShown: self.$showImageCaptureView, image: self.$image)
+            }
+            
             
             Button(action: {
                 withAnimation(Animation.easeInOut) {
                     if self.title.isEmpty {
-                          self.showAlert = true
-                      } else {
-                          self.viewModel.addItem(title: self.title, info: self.info)
-                          self.title = ""
-                          self.info = ""
-                          self.isShown.toggle()
-                      }
+                        self.showAlert = true
+                    } else {
+                        self.viewModel.addItem(title: self.title, info: self.info)
+                        self.title = ""
+                        self.info = ""
+                        self.isShown.toggle()
+                    }
                 }
             }){
                 Text("Add Item")
+                    .fontWeight(.bold)
             }
-            .padding()
-        }.transition(.slide)
+            .padding(.bottom)
+            //            func getImage() -> Image {
+            //                var img: Image
+            //                if image != nil  {
+            //                    img = image!
+            //                } else {
+            //                    img = Image(systemName: "photo")
+            //
+            //                }
+            //                return img
+            //                    .resizable()
+            //                    .frame(width: 150, height: 150)
+            //                    .clipShape(Circle())
+            //                    .overlay(Circle().stroke(Color.white, lineWidth: 4)) as! Image
+            //            }
+        }
     }
 }
 
 //struct NewListView_Previews: PreviewProvider {
+//    @State var b: Bool = true
 //    static var previews: some View {
-//        NewListView(viewModel: NewListViewModel(), listTitle: "")
+//        NewListView(viewModel: NewListViewModel(), listTitle: "", shouldPopToRootView: $b)
 //        .environment(\.colorScheme, .dark)
 //    }
 //}

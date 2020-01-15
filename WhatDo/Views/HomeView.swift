@@ -26,7 +26,7 @@ struct HomeView: View {
                         .foregroundColor(.white)
                         .padding(10)
                 }
-                NavigationLink(destination: viewModel.existingListView, isActive: self.$isExistingActive) {
+                NavigationLink(destination: ExistingListsView(isActive: self.$isExistingActive), isActive: $isExistingActive) {
                     Text("My Lists")
                         .fontWeight(.bold)
                         .font(.title)
@@ -38,7 +38,7 @@ struct HomeView: View {
                 }
             }
             .onAppear{
-                self.viewModel.resetExisingListView(isActive: self.$isExistingActive)
+                self.viewModel.fetchLists()
             }
             .onDisappear {
                 self.viewModel.resetNewListView(isActive: self.$isActive)

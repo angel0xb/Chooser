@@ -57,8 +57,15 @@ struct ExistingItemView: View {
         VStack(alignment: .leading) {
             Text(item.title)
                 .fontWeight(.bold)
+
             Text(item.info)
                 .font(.caption)
+            Image(systemName: "photo")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 100, height: 100)
+                .clipShape(Circle())
+                .overlay(Circle().stroke(Color.white, lineWidth: 4))
         }
     }
 }

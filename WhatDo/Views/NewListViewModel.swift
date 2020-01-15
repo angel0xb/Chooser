@@ -32,26 +32,16 @@ class NewListViewModel: ObservableObject {
     }
     
     func addItem(title: String, info: String, img: UIImage = UIImage()) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let itemEntity = NSEntityDescription.entity(forEntityName: "ListItem", in: managedContext)!
-        let item = ListItem(entity: itemEntity, insertInto: managedContext)
+        let itemEntity = CoreDataHelper.shared.getEntityDescription(for: "ListItem")
+        let item = CoreDataHelper.shared.getManagedObject(from: itemEntity) as! ListItem
         item.title = title
         item.info = info
 
         items.insert(item)
-        print("items:\(items)\n\n\n")
+//        print("items:\(items)\n\n\n")
     }
     
-    func deleteItem(at offsets: IndexSet) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
+    func deleteItem(at offsets: IndexSet) {        
         var itemsCopy = items
         var array = Array(items)
         array.remove(atOffsets: offsets)
@@ -59,23 +49,13 @@ class NewListViewModel: ObservableObject {
         itemsCopy.subtract(Set(array))
         guard let itemToDelete = itemsCopy.first else {return}
         
-        managedContext.delete(itemToDelete)
-        do {
-          try managedContext.save()
-        } catch let error as NSError {
-          print("Could not save. \(error), \(error.userInfo)")
-        }
+        CoreDataHelper.shared.delete(item: itemToDelete)
     }
         
     func saveList() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        let managedContext = appDelegate.persistentContainer.viewContext
         
-        let listEntity = NSEntityDescription.entity(forEntityName: "AList", in: managedContext)!
-        let list = !isEditing ? NSManagedObject(entity: listEntity,insertInto: managedContext) : NSManagedObject(entity: editList!.entity, insertInto: managedContext)
-        managedContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        let listEntity = CoreDataHelper.shared.getEntityDescription(for: "AList")
+        let list = !isEditing ? CoreDataHelper.shared.getManagedObject(from: listEntity) : CoreDataHelper.shared.getManagedObject(from: editList!.entity)
         
         for item in items {
             item.setValue(list, forKey: "list")
@@ -84,11 +64,7 @@ class NewListViewModel: ObservableObject {
         list.setValue(listTitle, forKeyPath: "title")
         list.setValue(items, forKey: "items")
         
-        do {
-          try managedContext.save()
-        } catch let error as NSError {
-          print("Could not save. \(error), \(error.userInfo)")
-        }
+        CoreDataHelper.shared.saveContext()
     }
     
     func getNavBarTitle() -> String {

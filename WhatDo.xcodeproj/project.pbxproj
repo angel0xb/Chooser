@@ -22,7 +22,10 @@
 		C25B788623BE4F6C009761B9 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25B788523BE4F6C009761B9 /* ListView.swift */; };
 		C268AFE523BBCB3F00F58AF9 /* ExistingListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C268AFE423BBCB3F00F58AF9 /* ExistingListsView.swift */; };
 		C268AFE723BBCB5700F58AF9 /* ExistingListsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C268AFE623BBCB5700F58AF9 /* ExistingListsViewModel.swift */; };
+		C27415F123CF718700C0A702 /* NewItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27415F023CF718700C0A702 /* NewItemViewModel.swift */; };
+		C28880FC23CE76AA00F78214 /* CaptureImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28880FB23CE76AA00F78214 /* CaptureImageView.swift */; };
 		C292C70D23AD7AE100161D6B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C292C70C23AD7AE100161D6B /* HomeViewModel.swift */; };
+		C2DA007E23CCDA5100AF7688 /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DA007D23CCDA5100AF7688 /* CoreDataHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +58,10 @@
 		C25B788523BE4F6C009761B9 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		C268AFE423BBCB3F00F58AF9 /* ExistingListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingListsView.swift; sourceTree = "<group>"; };
 		C268AFE623BBCB5700F58AF9 /* ExistingListsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingListsViewModel.swift; sourceTree = "<group>"; };
+		C27415F023CF718700C0A702 /* NewItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemViewModel.swift; sourceTree = "<group>"; };
+		C28880FB23CE76AA00F78214 /* CaptureImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureImageView.swift; sourceTree = "<group>"; };
 		C292C70C23AD7AE100161D6B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		C2DA007D23CCDA5100AF7688 /* CoreDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +103,7 @@
 		C25B17F023AD239400539FE5 /* WhatDo */ = {
 			isa = PBXGroup;
 			children = (
+				C2DA007C23CCD9BD00AF7688 /* Helpers */,
 				C25B181B23AD2B0C00539FE5 /* Views */,
 				C25B181623AD268D00539FE5 /* Models */,
 				C25B17F123AD239400539FE5 /* AppDelegate.swift */,
@@ -143,11 +150,21 @@
 				C292C70C23AD7AE100161D6B /* HomeViewModel.swift */,
 				C25B181C23AD378D00539FE5 /* NewListView.swift */,
 				C25B182A23AD61A800539FE5 /* NewListViewModel.swift */,
+				C27415F023CF718700C0A702 /* NewItemViewModel.swift */,
 				C268AFE423BBCB3F00F58AF9 /* ExistingListsView.swift */,
 				C268AFE623BBCB5700F58AF9 /* ExistingListsViewModel.swift */,
 				C25B788523BE4F6C009761B9 /* ListView.swift */,
+				C28880FB23CE76AA00F78214 /* CaptureImageView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C2DA007C23CCD9BD00AF7688 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				C2DA007D23CCDA5100AF7688 /* CoreDataHelper.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -253,12 +270,15 @@
 			files = (
 				C25B17F223AD239400539FE5 /* AppDelegate.swift in Sources */,
 				C25B788623BE4F6C009761B9 /* ListView.swift in Sources */,
+				C27415F123CF718700C0A702 /* NewItemViewModel.swift in Sources */,
 				C268AFE723BBCB5700F58AF9 /* ExistingListsViewModel.swift in Sources */,
 				C268AFE523BBCB3F00F58AF9 /* ExistingListsView.swift in Sources */,
 				C292C70D23AD7AE100161D6B /* HomeViewModel.swift in Sources */,
 				C25B182923AD3E6D00539FE5 /* ListItem.swift in Sources */,
 				C25B17F723AD239400539FE5 /* WhatDo.xcdatamodeld in Sources */,
+				C28880FC23CE76AA00F78214 /* CaptureImageView.swift in Sources */,
 				C25B182B23AD61A800539FE5 /* NewListViewModel.swift in Sources */,
+				C2DA007E23CCDA5100AF7688 /* CoreDataHelper.swift in Sources */,
 				C25B17F923AD239400539FE5 /* HomeView.swift in Sources */,
 				C25B17F423AD239400539FE5 /* SceneDelegate.swift in Sources */,
 				C25B181D23AD378D00539FE5 /* NewListView.swift in Sources */,

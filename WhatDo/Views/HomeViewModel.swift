@@ -13,29 +13,25 @@ class HomeViewModel: ObservableObject {
     @Published private(set) var items: [ListItem] = []
     @Published private(set) var itemImages = [ListItem:UIImage]()
     @Published var newListView: NewListView?
-    @Published var existingListView: ExistingListsView?
+    @Published var existingListsView: ExistingListsView?
     
     init() {
 //        deleteAllData()
     }
     func deleteAllData(){
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let DelAllReqVar = NSBatchDeleteRequest(fetchRequest: NSFetchRequest<NSFetchRequestResult>(entityName: "AList"))
-        do {
-            try managedContext.execute(DelAllReqVar)
-        }
-        catch {
-            print(error)
-        }
+        CoreDataHelper.shared.deleteAllItems()
+        CoreDataHelper.shared.deleteAllLists()
+    }
+    
+    func fetchLists() {
+        CoreDataHelper.shared.fetchAllLists()
     }
     
     func resetExisingListView(isActive: Binding<Bool>) {
-        existingListView = ExistingListsView(isActive: isActive)
+        existingListsView = ExistingListsView(isActive: isActive)
     }
     
     func resetNewListView(isActive: Binding<Bool>)  {
         newListView = NewListView(viewModel: NewListViewModel(isEditing: false), shouldPopToRootView: isActive)
     }
-    
 }
